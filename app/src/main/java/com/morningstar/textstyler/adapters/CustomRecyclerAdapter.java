@@ -9,22 +9,32 @@
 package com.morningstar.textstyler.adapters;
 
 import android.content.Context;
+import android.graphics.Typeface;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.morningstar.textstyler.R;
 
+import java.util.ArrayList;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class CustomRecyclerAdapter extends RecyclerView.Adapter<CustomRecyclerAdapter.CustomRecyclerViewHolder> {
 
     private View view;
     private Context context;
+    private ArrayList<Typeface> fontArraylist;
+    private String text;
 
-    public CustomRecyclerAdapter(Context context) {
+    public CustomRecyclerAdapter(Context context, ArrayList<Typeface> arrayList, String string) {
         this.context = context;
+        this.fontArraylist = arrayList;
+        this.text = string;
     }
 
     @NonNull
@@ -36,18 +46,30 @@ public class CustomRecyclerAdapter extends RecyclerView.Adapter<CustomRecyclerAd
 
     @Override
     public void onBindViewHolder(@NonNull CustomRecyclerViewHolder holder, int position) {
+        holder.textView.setTypeface(fontArraylist.get(position));
 
+        if (!TextUtils.isEmpty(text))
+            holder.textView.setText(text);
+
+        holder.itemNumber.setText(String.valueOf(position + 1));
     }
 
     @Override
     public int getItemCount() {
-        return 1;
+        return fontArraylist.size();
     }
 
     class CustomRecyclerViewHolder extends RecyclerView.ViewHolder{
+        TextView textView;
+        TextView itemNumber;
+        CircleImageView shareButton, copyButton;
 
-        public CustomRecyclerViewHolder(@NonNull View itemView) {
+        CustomRecyclerViewHolder(@NonNull View itemView) {
             super(itemView);
+            textView = itemView.findViewById(R.id.textView);
+            itemNumber = itemView.findViewById(R.id.itemNumber);
+            shareButton = itemView.findViewById(R.id.shareButton);
+            copyButton = itemView.findViewById(R.id.copyButton);
         }
     }
 }

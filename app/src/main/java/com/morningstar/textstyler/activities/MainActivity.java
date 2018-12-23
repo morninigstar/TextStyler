@@ -8,7 +8,10 @@
 
 package com.morningstar.textstyler.activities;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -17,8 +20,11 @@ import android.widget.Toast;
 import com.morningstar.textstyler.R;
 import com.morningstar.textstyler.adapters.CustomRecyclerAdapter;
 
+import java.util.ArrayList;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,6 +33,10 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private EditText editText;
     private RecyclerView recyclerView;
+
+    private ArrayList<Typeface> customFontsList;
+    private Typeface typeface;
+    private String text = "Random Text";
 
     private CustomRecyclerAdapter customRecyclerAdapter;
     @Override
@@ -37,15 +47,51 @@ public class MainActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         editText = findViewById(R.id.inputField);
         recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        customFontsList = new ArrayList<>();
 
         setSupportActionBar(toolbar);
 
-        setUpRecycler();
+        createFontsList();
+        setUpRecycler(text);
+
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                text = editText.getText().toString();
+                setUpRecycler(text);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
-    private void setUpRecycler() {
-        customRecyclerAdapter = new CustomRecyclerAdapter(this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    private void createFontsList() {
+        customFontsList.add(ResourcesCompat.getFont(this, R.font.bitter_mind));
+        customFontsList.add(ResourcesCompat.getFont(this, R.font.forgiven_script));
+        customFontsList.add(ResourcesCompat.getFont(this, R.font.javelyn));
+        customFontsList.add(ResourcesCompat.getFont(this, R.font.nofhistica));
+        customFontsList.add(ResourcesCompat.getFont(this, R.font.perfect_christmas));
+        customFontsList.add(ResourcesCompat.getFont(this, R.font.stifora));
+        customFontsList.add(ResourcesCompat.getFont(this, R.font.valentine));
+        customFontsList.add(ResourcesCompat.getFont(this, R.font.wonderful_night));
+        customFontsList.add(ResourcesCompat.getFont(this, R.font.bonjour_allegra));
+        customFontsList.add(ResourcesCompat.getFont(this, R.font.farisa_dark));
+        customFontsList.add(ResourcesCompat.getFont(this, R.font.pumpkin_pie));
+        customFontsList.add(ResourcesCompat.getFont(this, R.font.quiche));
+        customFontsList.add(ResourcesCompat.getFont(this, R.font.revallyna));
+        customFontsList.add(ResourcesCompat.getFont(this, R.font.sandwich));
+    }
+
+    private void setUpRecycler(String string) {
+        customRecyclerAdapter = new CustomRecyclerAdapter(this, customFontsList, string);
         recyclerView.setAdapter(customRecyclerAdapter);
     }
 

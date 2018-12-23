@@ -7,35 +7,57 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
+    android:layout_margin="5dp"
     android:background="@drawable/bg_recycler_item"
-    android:paddingBottom="5dp"
-    android:paddingTop="5dp">
+    android:orientation="horizontal"
+    android:padding="5dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp">
 
         <TextView
             android:id="@+id/itemNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
             android:text="1"
             android:textSize="20sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="2dp">
 
         <TextView
-            android:layout_width="200dp"
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Random Text"
-            android:textSize="18sp" />
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/shareButton"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginStart="10dp"
             android:src="@mipmap/ic_share"
             app:civ_border_color="@color/colorPrimary"
             app:civ_border_overlay="true" />
@@ -44,8 +66,8 @@
             android:id="@+id/copyButton"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:layout_marginEnd="10dp"
             android:src="@mipmap/ic_copy"
             app:civ_border_color="@color/colorPrimary"
-            app:civ_border_overlay="true"/>
+            app:civ_border_overlay="true" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </LinearLayout>
