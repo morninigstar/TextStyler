@@ -8,14 +8,19 @@
 
 package com.morningstar.textstyler.adapters;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.morningstar.textstyler.R;
 
 import java.util.ArrayList;
@@ -52,6 +57,34 @@ public class CustomRecyclerAdapter extends RecyclerView.Adapter<CustomRecyclerAd
             holder.textView.setText(text);
 
         holder.itemNumber.setText(String.valueOf(position + 1));
+
+        holder.copyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!TextUtils.isEmpty(text)) {
+                    ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+                    ClipData clipData = ClipData.newPlainText("copied_text", text);
+                    clipboardManager.setPrimaryClip(clipData);
+                    Snackbar snackbar = Snackbar.make(view, "Copied", Snackbar.LENGTH_SHORT);
+                    snackbar.show();
+                } else
+                    Toast.makeText(context, "Nothing to copy", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        holder.shareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!TextUtils.isEmpty(text)) {
+                    Intent intent = new Intent(Intent.ACTION_SEND);
+                    intent.setType("text/plain");
+                    intent.putExtra(Intent.EXTRA_TEXT, text);
+                    context.startActivity(Intent.createChooser(intent, "Share Text"));
+                } else {
+                    Toast.makeText(context, "Nothing to share", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     @Override
